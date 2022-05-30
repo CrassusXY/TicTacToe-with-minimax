@@ -2,23 +2,21 @@ TRGDIR=./
 OBJ=./obj
 CPPFLAGS= -c -g -Wall -pedantic -std=c++17 -iquote inc
 
-__start__: rank.out
-	./rank.out
+__start__: tictactoe.out
+	./tictactoe.out
 
-rank.out: ${OBJ} ${OBJ}/main.o ${OBJ}/movielist.o
-	g++ -o rank.out ${OBJ}/main.o ${OBJ}/movielist.o -lpthread
+tictactoe.out: ${OBJ} ${OBJ}/main.o ${OBJ}/tictactoe.o
+	g++ -o tictactoe.out ${OBJ}/main.o ${OBJ}/tictactoe.o -lpthread
 
 ${OBJ}:
 	mkdir ${OBJ}
 
-${OBJ}/main.o: src/main.cpp inc/movielist.hh inc/sorts.hh
+${OBJ}/main.o: src/main.cpp inc/tictactoe.hh
 	g++ ${CPPFLAGS} -o ${OBJ}/main.o src/main.cpp
 
-${OBJ}/movielist.o: src/movielist.cpp inc/movielist.hh 
-	g++ ${CPPFLAGS} -o ${OBJ}/movielist.o src/movielist.cpp
+${OBJ}/tictactoe.o: src/tictactoe.cpp inc/tictactoe.hh 
+	g++ ${CPPFLAGS} -o ${OBJ}/tictactoe.o src/tictactoe.cpp
 
-${OBJ}/sorts.o: src/sorts.cpp inc/sorts.hh 
-	g++ ${CPPFLAGS} -o ${OBJ}/sorts.o src/sorts.cpp
 
 clear:
-	rm -f rank.out ${OBJ}/*
+	rm -f tictactoe.out ${OBJ}/*
