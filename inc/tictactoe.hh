@@ -11,13 +11,14 @@ using std::endl;
 class tictactoe
 {
 private:
-    char grid[9];
+    char **grid;
+    int required;
     int size;
     int played;
 public:
     tictactoe();
-    char getFigure(int i){return grid[i];};
-    void setFigure(int i, char fig_){grid[i] = fig_;};
+    char getFigure(int x, int y){return grid[x][y];};
+    void setFigure(int x, int y, char fig_){grid[x][y] = fig_;};
     int getSize(){return size;};
 
     void displayGrid();
