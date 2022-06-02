@@ -140,3 +140,59 @@ void tictactoe::play(){
         cout<<"Remis i chuj."<<endl;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+if(x<=size-required && grid[x][y] != ' ' ){
+                tmpA=0;
+                for (int i=0; i<required; i++){
+                    if(grid[x][y] == grid[x+i][y])
+                        tmpA++;
+                    else break;
+                }
+                //cout<<"Kurew konfidenckich poziomo "<<tmpA<<endl;
+                if (tmpA == required)
+                    return true;
+            }
+            if(y<=size-required && grid[x][y] != ' '){
+                tmpB=0;
+                for (int i=0; i<required; i++){
+                    if(grid[x][y] == grid[x][y+i])
+                        tmpB++;
+                    else break;                    
+                }
+                //cout<<"Kurew konfidenckich pionowo "<<tmpB<<endl;
+                if (tmpB == required)
+                    return true;
+            }
+            if(x<=size-required && y<=size-required && grid[x][y] != ' '){
+                tmpC=0;
+                for (int i=0; i<required; i++){
+                    if(grid[x][y] == grid[x+i][y+i])
+                        tmpC++;
+                    else break;  
+                }
+                //cout<<"Kurew konfidenckich skosnie- "<<tmpA<<endl;
+                if (tmpC == required)
+                    return true;
+            }
+            if(x<=required && y<=required && grid[x][y] != ' '){
+                tmpD=0;
+                for (int i=0; i<required; i++){
+                    if(grid[x][y] == grid[x+i][y-i])
+                        tmpD++;
+                    else break;  
+                }
+                //cout<<"Kurew konfidenckich skosnie+ "<<tmpA<<endl;
+                if (tmpD == required)
+                    return true;
+            }

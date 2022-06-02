@@ -1,17 +1,15 @@
 #include "tictactoe.hh"
 
 tictactoe::tictactoe(){
-    size = 5;
-    required = 2;
+    size = 4;
+    required = 3;
     grid = new char*[size];
     for(int i=0; i<size; i++) {
         grid[i] = new char[size];
     }
-    char tmp = '0';
     for(int y=0; y<size; y++){
         for(int x=0; x<size; x++){
-            grid[x][y] = tmp;
-            tmp++;
+            grid[x][y] = ' ';
         }
     }
 }
@@ -51,21 +49,54 @@ void tictactoe::displayGrid(){
 }
 
 bool tictactoe::isWon(){
-    int tmpA, tmpB;
-    int ind=0;
-    for (int i=0; i<size; i++)
-    {
-        tmpA=0;
-        tmpB=0;
-        for (int j=0; j<size; j++)
-        {
-            if(ind%size<size-1 && grid[ind] == grid[ind+1] && grid[ind] != ' '){
-                
-                tmpA++;
-                if(tmpA == required)
+    int tmpA, tmpB, tmpC, tmpD;
+    for (int y=0; y<size; y++){
+        for (int x=0; x<size; x++){
+            if(x<=size-required && grid[x][y] != ' ' ){
+                tmpA=0;
+                for (int i=0; i<required; i++){
+                    if(grid[x][y] == grid[x+i][y])
+                        tmpA++;
+                    else break;
+                }
+                //cout<<"Kurew konfidenckich poziomo "<<tmpA<<endl;
+                if (tmpA == required)
                     return true;
             }
-        }  
+            if(y<=size-required && grid[x][y] != ' '){
+                tmpB=0;
+                for (int i=0; i<required; i++){
+                    if(grid[x][y] == grid[x][y+i])
+                        tmpB++;
+                    else break;                    
+                }
+                //cout<<"Kurew konfidenckich pionowo "<<tmpB<<endl;
+                if (tmpB == required)
+                    return true;
+            }
+            if(x<=size-required && y<=size-required && grid[x][y] != ' '){
+                tmpC=0;
+                for (int i=0; i<required; i++){
+                    if(grid[x][y] == grid[x+i][y+i])
+                        tmpC++;
+                    else break;  
+                }
+                //cout<<"Kurew konfidenckich skosnie- "<<tmpA<<endl;
+                if (tmpC == required)
+                    return true;
+            }
+            if(x<=required && y<=required && grid[x][y] != ' '){
+                tmpD=0;
+                for (int i=0; i<required; i++){
+                    if(grid[x][y] == grid[x+i][y-i])
+                        tmpD++;
+                    else break;  
+                }
+                //cout<<"Kurew konfidenckich skosnie+ "<<tmpA<<endl;
+                if (tmpD == required)
+                    return true;
+            }
+        }
     }
     return false;
 }
