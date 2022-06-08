@@ -196,3 +196,90 @@ if(x<=size-required && grid[x][y] != ' ' ){
                 if (tmpD == required)
                     return true;
             }
+
+
+
+std::pair<int,int> tictactoe::minimax(int depth, bool isMax){
+    minmax++;
+    if(isWon()){
+        if(played%2==1)
+            return 10-depth;
+        else
+            return -10+depth;
+    }
+    else if (isDraw())
+        return 0;
+    
+    //maksymalizacja
+    if (isMax)
+    {
+        int best = -1000;
+        for (int y=0; y<size; y++){
+            for (int x=0; x<size; x++){
+                if (grid[x][y] == ' ')
+                {
+                    grid[x][y]='X';
+                    played++;
+
+                    best = std::max(best, minimax(depth + 1, !isMax));
+
+                    // Undo the move
+                    grid[x][y] = ' ';
+                    played--;
+                }
+            }
+        }
+        return best;
+    }
+
+    //minimalizacja
+    else
+    {
+        int best = 1000;
+        for (int y=0; y<size; y++){
+            for (int x=0; x<size; x++){
+                if (grid[x][y] == ' ')
+                {
+                    grid[x][y]='O';
+                    played++;
+                    best = std::min(best, minimax(depth + 1, !isMax));
+
+                    // Undo the move
+                    grid[x][y] = ' ';
+                    played--;
+                }
+            }
+        }
+        return best;
+    }
+}
+
+
+std::pair<int,int> tictactoe::bestMove()
+{
+    int bestVal = -1000;
+    int bestMove[2]={-1,-1};
+
+    for (int y=0; y<size; y++){
+        for (int x=0; x<size; x++){
+            if (grid[x][y] == ' ')
+            {
+                grid[x][y]='O';
+                played++;
+                int moveValue = minimax(0, true);
+                grid[x][y]=' ';
+                played--;
+                
+                if (moveValue > bestVal)
+                {
+                    bestVal = moveValue;
+                    bestMove[0] = x;
+                    bestMove[1] = y;
+                }
+            }
+        }
+    }
+    cout << "najlepszy ruch to: " << bestMove[0] << " " << bestMove[1] << endl;
+    cout<<minmax<<endl;
+   
+}
