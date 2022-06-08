@@ -15,6 +15,7 @@ private:
     int required;
     int size;
     int played;
+    int minmax;
 public:
     tictactoe();
     char getFigure(int x, int y){return grid[x][y];};
@@ -25,6 +26,8 @@ public:
     bool isWon();
     bool isDraw();
     void play();
+    int minimax(int depth, bool isMax);
+    std::pair<int,int> bestMove();
 };
 
 

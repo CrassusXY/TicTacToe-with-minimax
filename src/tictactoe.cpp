@@ -85,7 +85,7 @@ bool tictactoe::isWon(){
                 if (tmpC == required)
                     return true;
             }
-            if(x<=required && y<=required && grid[x][y] != ' '){
+            if(x<=size-required && y>size-required && grid[x][y] != ' '){
                 tmpD=0;
                 for (int i=0; i<required; i++){
                     if(grid[x][y] == grid[x+i][y-i])
@@ -120,30 +120,26 @@ void tictactoe::play(){
 
     do{
         if(played%2==0){
-            cout<<endl<<"Gdzie postawić kółko?"<<endl;
+            std::pair<int,int> move = bestMove();
+            setFigure(move.first, move.second, 'O');
         }
         else{
             cout<<endl<<"Gdzie postawić krzyżyk?"<<endl;
-        }
-        cin>>x;
-        cin>>y;
-        while (x<0 || x>=size || y<0 || y>=size){
-            cout<<"Wychodzisz poza index! Podaj inne pole."<<endl;
-            cin>>x;
-            cin>>y;  
-        }
-        while (grid[x][y] == 'O' || grid[x][y] == 'X'){
-            cout<<"To pole jest zajęte, wybierz inne!"<<endl;
             cin>>x;
             cin>>y;
-        }
-        if(played%2==0){
-            setFigure(x, y, 'O'); 
-        }
-        else{
+            while (x<0 || x>=size || y<0 || y>=size){
+                cout<<"Wychodzisz poza index! Podaj inne pole."<<endl;
+                cin>>x;
+                cin>>y;  
+            }
+            while (grid[x][y] == 'O' || grid[x][y] == 'X'){
+                cout<<"To pole jest zajęte, wybierz inne!"<<endl;
+                cin>>x;
+                cin>>y;
+            }
             setFigure(x, y, 'X');
         }
-        system("clear");
+        //system("clear");
         displayGrid();
         played++;
     }while (!isDraw() && !isWon());
@@ -160,4 +156,89 @@ void tictactoe::play(){
     else if(isDraw()){
         cout<<"Remis i chuj."<<endl;
     }
+}
+
+int tictactoe::minimax(int depth, bool isMax){
+    minmax++;
+    if(isWon()){
+        if(played%2==1)
+            return 10-depth;
+        else
+            return -10+depth;
+    }
+    else if (isDraw())
+        return 0;
+    
+    //maksymalizacja
+    if (isMax)
+    {
+        int best = -1000;
+        for (int y=0; y<size; y++){
+            for (int x=0; x<size; x++){
+                if (grid[x][y] == ' ')
+                {
+                    grid[x][y]='X';
+                    played++;
+
+                    best = std::max(best, minimax(depth + 1, !isMax));
+
+                    // Undo the move
+                    grid[x][y] = ' ';
+                    played--;
+                }
+            }
+        }
+        return best;
+    }
+
+    //minimalizacja
+    else
+    {
+        int best = 1000;
+        for (int y=0; y<size; y++){
+            for (int x=0; x<size; x++){
+                if (grid[x][y] == ' ')
+                {
+                    grid[x][y]='O';
+                    played++;
+                    best = std::min(best, minimax(depth + 1, !isMax));
+
+                    // Undo the move
+                    grid[x][y] = ' ';
+                    played--;
+                }
+            }
+        }
+        return best;
+    }
+}
+
+
+std::pair<int,int> tictactoe::bestMove()
+{
+    int bestVal = -1000;
+    int bestMove[2]={-1,-1};
+
+    for (int y=0; y<size; y++){
+        for (int x=0; x<size; x++){
+            if (grid[x][y] == ' ')
+            {
+                grid[x][y]='O';
+                played++;
+                int moveValue = minimax(0, true);
+                grid[x][y]=' ';
+                played--;
+                
+                if (moveValue > bestVal)
+                {
+                    bestVal = moveValue;
+                    bestMove[0] = x;
+                    bestMove[1] = y;
+                }
+            }
+        }
+    }
+    cout << "najlepszy ruch to: " << bestMove[0] << " " << bestMove[1] << endl;
+    cout<<minmax<<endl;
+    return std::pair<int,int>(bestMove[0], bestMove[1]);
 }
