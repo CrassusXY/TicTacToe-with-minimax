@@ -17,14 +17,14 @@ private:
     int played;
     int minmax;
     int maxdepth;
+    char AI;
+    char human;
+    int alphabeta;
 public:
-    tictactoe();
-    char getFigure(int x, int y){return grid[x][y];};
-    void setFigure(int x, int y, char fig_){grid[x][y] = fig_;};
-    int getSize(){return size;};
+    tictactoe(int size_, int required_, int maxdepth_);
 
     void displayGrid();
-    bool isWon();
+    int evaluate();
     bool isDraw();
     void play();
     std::pair<int, std::pair<int, int>> minimax(bool isMax, int depth, int alpha, int beta);
