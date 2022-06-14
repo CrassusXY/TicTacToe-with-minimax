@@ -52,7 +52,7 @@ void tictactoe::displayGrid(){
         }
         cout<<"   "<<x;
     }
-    cout<<endl<<endl;
+    cout<<endl;
     int i=0;
     for (int y=0; y<size; y++){
         for (int x=0; x<size; x++){

@@ -24,13 +24,13 @@ game load_values(){
         cin >> required;
     }
 
-    cout<<endl<<"Podaj glębokosc rekurencji: ";
+    cout<<endl<<"Podaj glebokosc rekurencji: ";
     cin>>maxdepth;
     while(cin.fail() || maxdepth<0){
         cout << "Wprowadziles bledne dane" << endl;
         cin.clear();
         cin.ignore(1000,'\n');
-        cout << "Wprowadz glębokosc rekurencji ponownie:";
+        cout << "Wprowadz glebokosc rekurencji ponownie:";
         cin >> maxdepth;
     }
 
