@@ -4,7 +4,7 @@ using namespace std::chrono;
 void game::play(){
     int x, y;
     system("clear");
-    cout<<"Zaczyna kółko"<<endl;
+    cout<<"Zaczyna kolko"<<endl;
     grid.displayGrid();
 
     do{
@@ -17,7 +17,7 @@ void game::play(){
             grid.set_value(move.second.first, move.second.second, AI);
         }
         else{
-            cout<<endl<<"Gdzie postawić figurę?"<<endl;
+            cout<<endl<<"Gdzie postawic figure?"<<endl;
             cin>>x;
             cin>>y;
             while (x<0 || x>=grid.get_size() || y<0 || y>=grid.get_size()){
@@ -26,7 +26,7 @@ void game::play(){
                 cin>>y;  
             }
             while (grid.get_fig(x, y) == 'O' || grid.get_fig(x, y) == 'X'){
-                cout<<"To pole jest zajęte, wybierz inne!"<<endl;
+                cout<<"To pole jest zajete, wybierz inne!"<<endl;
                 cin>>x;
                 cin>>y;
             }
@@ -38,28 +38,31 @@ void game::play(){
 
     if(grid.evaluate()!=0){
         if(grid.moves_count()%2==1){
-            cout<<"Wygrało kółko!"<<endl;
+            cout<<"Wygralo kolko!"<<endl;
             if(AI=='O')
                 AI_score++;
             else
                 human_score++;
         }  
         else{
-            cout<<"Wygrał krzyżyk!"<<endl;
+            cout<<"Wygral krzyzyk!"<<endl;
             if(AI=='X')
                 AI_score++;
             else
                 human_score++;
         }
     }
-    else if(grid.isDraw())
+    else if(grid.isDraw()){
+        AI_score += 0.5;
+        human_score += 0.5;
         cout<<"Remis!"<<endl;
+    }
 }
 
 void game::play_animated(){
     int x, y;
     system("clear");
-    cout<<"Zaczyna kółko"<<endl;
+    cout<<"Zaczyna kolko"<<endl;
     grid.displayGrid();
 
     do{
@@ -72,7 +75,7 @@ void game::play_animated(){
             grid.set_value(move.second.first, move.second.second, AI);
         }
         else{
-            cout<<endl<<"Gdzie postawić figurę?"<<endl;
+            cout<<endl<<"Gdzie postawic figure?"<<endl;
             cin>>x;
             cin>>y;
             while (x<0 || x>=grid.get_size() || y<0 || y>=grid.get_size()){
@@ -81,7 +84,7 @@ void game::play_animated(){
                 cin>>y;  
             }
             while (grid.get_fig(x, y) == 'O' || grid.get_fig(x, y) == 'X'){
-                cout<<"To pole jest zajęte, wybierz inne!"<<endl;
+                cout<<"To pole jest zajete, wybierz inne!"<<endl;
                 cin>>x;
                 cin>>y;
             }
@@ -93,20 +96,23 @@ void game::play_animated(){
 
     if(grid.evaluate()!=0){
         if(grid.moves_count()%2==1){
-            cout<<"Wygrało kółko!"<<endl;
+            cout<<"Wygralo kolko!"<<endl;
             if(AI=='O')
                 AI_score++;
             else
                 human_score++;
         }  
         else{
-            cout<<"Wygrał krzyżyk!"<<endl;
+            cout<<"Wygral krzyzyk!"<<endl;
             if(AI=='X')
                 AI_score++;
             else
                 human_score++;
         }
     }
-    else if(grid.isDraw())
+    else if(grid.isDraw()){
+        AI_score += 0.5;
+        human_score += 0.5;
         cout<<"Remis!"<<endl;
+    }
 }

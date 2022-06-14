@@ -1,36 +1,36 @@
 #include "game.hh"
 
-game load_value(){
+game load_values(){
     int size, required, maxdepth;
     char human, AI;
 
-    cout<<endl<<"Podaj wielkość planszy: ";
+    cout<<endl<<"Podaj wielkosc planszy: ";
     cin>>size;
     while(cin.fail() || size<3 || size>10){
         cout << "Wprowadziles bledne dane" << endl;
         cin.clear();
         cin.ignore(1000,'\n');
-        cout << "Wprowadz wielkość planszy ponownie:";
+        cout << "Wprowadz wielkosc planszy ponownie:";
         cin >> size;
     }
 
-    cout<<endl<<"Podaj ilość figur pod rząd wymaganych do wygranej: ";
+    cout<<endl<<"Podaj ilosc figur pod rząd wymaganych do wygranej: ";
     cin>>required;
     while(cin.fail() || required<3 || required>size){
         cout << "Wprowadziles bledne dane" << endl;
         cin.clear();
         cin.ignore(1000,'\n');
-        cout << "Wprowadz ilość figur pod rząd ponownie:";
+        cout << "Wprowadz ilosc figur pod rząd ponownie:";
         cin >> required;
     }
 
-    cout<<endl<<"Podaj głębokość rekurencji: ";
+    cout<<endl<<"Podaj glębokosc rekurencji: ";
     cin>>maxdepth;
     while(cin.fail() || maxdepth<0){
         cout << "Wprowadziles bledne dane" << endl;
         cin.clear();
         cin.ignore(1000,'\n');
-        cout << "Wprowadz głębokość rekurencji ponownie:";
+        cout << "Wprowadz glębokosc rekurencji ponownie:";
         cin >> maxdepth;
     }
 
@@ -56,7 +56,7 @@ game load_value(){
 int main(){
     char tmp='t';
     system("clear");
-    cout<<"KÓŁKO I KRZYŻYK"<<endl;
+    cout<<"KOLKO I KRZYZYK"<<endl;
     char tmpA;
 
 
@@ -73,7 +73,7 @@ int main(){
         }
 
 
-        game tictac = load_value();
+        game tictac = load_values();
         if(tmpA == 't')
             tictac.play_animated();
         else

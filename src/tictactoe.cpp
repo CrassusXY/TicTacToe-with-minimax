@@ -52,7 +52,7 @@ void tictactoe::displayGrid(){
         }
         cout<<"   "<<x;
     }
-    cout<<endl;
+    cout<<endl<<endl;
     int i=0;
     for (int y=0; y<size; y++){
         for (int x=0; x<size; x++){
@@ -88,17 +88,19 @@ bool tictactoe::isDraw(){
 
 int tictactoe::evaluate(){
     int tmp;
+    //skips part when there wasn't enough moves to win
     if(played<required*2-1)
         return 0;
 
     for (int y=0; y<size; y++){
         for (int x=0; x<size; x++){
-            //skip parts wihout possibility to win 
+            //skip parts wihout possibility to win, cuz i start checking only right and down from current position 
             if(x>size-required && y>size-required)
                 continue;
 
-            //horizontally
+            
             if(grid[x][y] != ' '){
+                //horizontally
                 if(x<=size-required){
                     tmp=1;
                     for (int i=1; i<required; i++){
@@ -168,18 +170,18 @@ std::pair<int, std::pair<int, int>> tictactoe::minimax(bool isMax, int depth, in
     int best_score;
     std::pair<int, int> best_move = std::make_pair(-1, -1);
 
+    //if the game is in terminating state, return evaluation of this position
     if(evaluate()!=0){
         if(isMax)
             return std::make_pair(evaluate()*100+depth, best_move);
         else
             return std::make_pair(evaluate()*100-depth, best_move);  
     }
-
     else if(depth == maxdepth || isDraw()){
         return std::make_pair(0, best_move);
     }
 
-    //maksymalizacja
+    //maximization
     if(isMax){
         best_score = -1000;
         for (int y=0; y<size; y++){
@@ -194,7 +196,8 @@ std::pair<int, std::pair<int, int>> tictactoe::minimax(bool isMax, int depth, in
                     if (best_score < score){
                         best_score = score;
                         best_move = std::make_pair(x, y);
-                        alpha = std::max(alpha, best_score);
+
+                        alpha = std::max(alpha, best_score);    //alpha beta pruning
                         if (beta <= alpha){
                             return std::make_pair(alpha, best_move);
                         }
@@ -204,7 +207,8 @@ std::pair<int, std::pair<int, int>> tictactoe::minimax(bool isMax, int depth, in
         }
         return std::make_pair(best_score, best_move);
     }
-    //minimalizacja
+
+    //minimalization
     else{
         best_score = 1000;
         for (int y=0; y<size; y++){
@@ -219,7 +223,8 @@ std::pair<int, std::pair<int, int>> tictactoe::minimax(bool isMax, int depth, in
                     if (best_score > score){
                         best_score = score;
                         best_move = std::make_pair(x, y);
-                        beta = std::min(beta, best_score);
+
+                        beta = std::min(beta, best_score);      //alpha beta pruning
                         if (beta <= alpha){
                             return std::make_pair(beta, best_move);
                         }
@@ -236,18 +241,18 @@ std::pair<int, std::pair<int, int>> tictactoe::animated_minimax(bool isMax, int 
     int best_score;
     std::pair<int, int> best_move = std::make_pair(-1, -1);
 
+    //if the game is in terminating state, return evaluation of this position
     if(evaluate()!=0){
         if(isMax)
             return std::make_pair(evaluate()*100+depth, best_move);
         else
             return std::make_pair(evaluate()*100-depth, best_move);  
     }
-
     else if(depth == maxdepth || isDraw()){
         return std::make_pair(0, best_move);
     }
 
-    //maksymalizacja
+    //maximization
     if(isMax){
         best_score = -1000;
         for (int y=0; y<size; y++){
@@ -275,7 +280,7 @@ std::pair<int, std::pair<int, int>> tictactoe::animated_minimax(bool isMax, int 
         }
         return std::make_pair(best_score, best_move);
     }
-    //minimalizacja
+    //minimization
     else{
         best_score = 1000;
         for (int y=0; y<size; y++){
